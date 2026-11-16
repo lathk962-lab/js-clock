@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JS clock</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bonbon&family=DotGothic16&family=Doto:wght@100..900&family=IM+Fell+English:ital@0;1&family=Miss+Fajardose&family=Single+Day&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <style>
+    p {
+      font-size: 20px;
+      color: #e0457a;
+    }
+
+    h1 {
+      font-size: 90px;
+      background-color: #ec5b8c;
+    }
+
+    body {
+      background-color: #a8d88c;
+      color: #fff4dc;
+      font-family: Doto;
+      font-weight: 400;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 50px;
+    }
+
+    .row {
+      width: 1000px;
+      max-width: 95%;
+      display: flex;
+      align-items: flex-end;
+      gap: 30px;
+    }
+
+    .number {
+      font-size: 80px;
+      font-weight: 500;
+      width: 120px;
+    }
+
+    .bar {
+      flex: 1;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tick {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #ff8fb8;
+      opacity: 0.25;
+    }
+
+    .on {
+      opacity: 1;
+      background-color: #fff4dc;
+    }
+
+    .now {
+      background-color: #ff4f8b;
+      width: 20px;
+      height: 20px;
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>clock in js</h1>
+
+  <div class="row">
+    <div class="number" id="hours">00</div>
+    <div class="bar" id="hoursbar"></div>
+  </div>
+  <div class="row">
+    <div class="number" id="minutes">00</div>
+    <div class="bar" id="minutesbar"></div>
+  </div>
+  <div class="row">
+    <div class="number" id="seconds">00</div>
+    <div class="bar" id="secondsbar"></div>
+  </div>
+
+  <p>to help you keep track of time :)</p>
+
+<script>
+
+  function makeTicks(barId, tickCount) {
+    const bar = document.getElementById(barId);
+
+    for (let tickNumber = 0; tickNumber < tickCount; tickNumber++) {
+      bar.innerHTML += '<div class="tick"> </div>';
+    }
+    
+  }
+
+  makeTicks("hoursbar", 24);
+  makeTicks("minutesbar", 60);
+  makeTicks("secondsbar", 60);
+
+
+  function update(name, currentValue) {
+
+    let displayText = currentValue;
+    if (currentValue < 10) {
+      displayText = "0" + currentValue;
+    }
+    document.getElementById(name).textContent = displayText;
+
+    const allTicks = document.getElementById(name + "bar").children;
+
+    for (let position = 0; position < allTicks.length; position++) {
+
+      const tick = allTicks[position];
+
+      if (position < currentValue) {
+        tick.className = "tick on";    
+
+      } 
+
+      else if (position === currentValue) {
+        tick.className = "tick now";  
+      } 
+
+      else {
+        tick.className = "tick";       
+      }
+    }
+  }
+
+  function showTime() {
+    const now = new Date();
+    update("hours", now.getHours());
+    update("minutes", now.getMinutes());
+    update("seconds", now.getSeconds());
+  }
+
+  showTime();                   
+  setInterval(showTime, 1000); 
+
+</script>
+
+</body>
+</html>
